@@ -61,6 +61,6 @@ Describe "ConvertFrom-ExcelToSQLInsert" {
             $expected = "INSERT INTO Sheet1 ('FirstName', 'LastName', 'Age') Values('John', 'D''Angelo', NULL);"
             $actual = ConvertFrom-ExcelToSQLInsert -Path $xlFile Sheet1 -SingleQuoteStyle "''" -ConvertEmptyStringsToNull
             $actual | Should -Be $expected
-        }    
+        }
     }
 }

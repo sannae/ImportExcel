@@ -37,16 +37,15 @@ function ConvertFrom-ExcelToSQLInsert {
         }
 
         $values = foreach ($propertyName in $PropertyNames) {
+
             if ($ConvertEmptyStringsToNull.IsPresent -and [string]::IsNullOrEmpty($record.$propertyName)) {
                 'NULL'
             }
+            elseif ($SingleQuoteStyle -and ![string]::IsNullOrEmpty($record.$propertyName)) {
+                "'" + $record.$propertyName.ToString().Replace("'", ${SingleQuoteStyle}) + "'"
+            }
             else {
-                if ( $SingleQuoteStyle ) {
-					"'" + $record.$propertyName.ToString().Replace("'",${SingleQuoteStyle}) + "'" 
-					}
-				else {
-				 "'" + $record.$propertyName + "'"
-				}
+                "'" + $record.$propertyName + "'"
             }
         }
         $targetValues = ($values -join ", ")
