@@ -69,6 +69,29 @@ INSERT INTO Movies ('Movie Name', 'Year', 'Rating') Values('Skyfall', '2012', '9
 INSERT INTO Movies ('Movie Name', 'Year', 'Rating') Values('The Avengers', '2012', NULL);
 ```
 
+### EXAMPLE 3
+
+```text
+Generate SQL insert statements from Movies.xlsx file, escaping single quotes with specified style.
+
+----------------------------------------------------------
+| File: Movies.xlsx            -           Sheet: Sheet1 |
+----------------------------------------------------------
+|           A            B            C                  |
+|1     Movie Name      Year         Rating               |
+|2     The Bodyguard   1992           9                  |
+|3     The Matrix      1999           8                  |
+|4     Skyfall         2012           9                  |
+|5     L'armée rouge   2020           7                  |
+----------------------------------------------------------
+
+PS C:\> ConvertFrom-ExcelToSQLInsert -TableName "Movies" -Path "C:\Movies.xlsx" -SingleQuoteStyle "''"
+INSERT INTO Movies ('Movie Name', 'Year', 'Rating') Values('The Bodyguard', '1992', '9');
+INSERT INTO Movies ('Movie Name', 'Year', 'Rating') Values('The Matrix', '1999', '8');
+INSERT INTO Movies ('Movie Name', 'Year', 'Rating') Values('Skyfall', '2012', '9');
+INSERT INTO Movies ('Movie Name', 'Year', 'Rating') Values('L''armée rouge', '2020', '');
+```
+
 ## PARAMETERS
 
 ### -TableName
@@ -201,8 +224,26 @@ Accept wildcard characters: False
 
 ### -UseMSSQLSyntax
 
+When specified, it will apply the square brackets required when you use keywords or special chars (such as a space) in the column names or identifiers.
+
 ```yaml
 Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -SingleQuoteStyle
+
+It specifies the style to be used when escaping the single quotes within the values, while keeping the quotes starting and ending each value. Use `''` or `\'` depending on the syntax of the target database.
+
+```yaml
+Type: String
 Parameter Sets: (All)
 Aliases:
 
